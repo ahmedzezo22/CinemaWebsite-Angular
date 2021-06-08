@@ -1,0 +1,49 @@
+<div class="container register rtl">
+    <div class="col-md-9">
+      <h5 class="mt-4 mb-3"> {{this.title}} </h5>
+
+      <hr class="">
+      <button class="btn btn-primary mb-4" (click)="goList()">العوده لقائمة الممثلين</button>
+
+      <div *ngIf="success!==''" class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>{{success}}</strong>
+      </div>
+      <div *ngIf="error!==''" class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>{{error}}</strong>
+      </div>
+    </div>
+
+    <form [formGroup]="movieActor" (ngSubmit)="AddMovieActor()" enctype="multipart/form-data">
+      <div class="form-group col-md-8">
+        <label for="movId">الفيلم </label>
+        <select id="" class="custom-select" formControlName="movId" name="movId"
+          [ngClass]="{'is-invalid':((this.movieActor.get('movId').invalid&& this.movieActor.get('movId').touched&&this.movieActor.get('movId').value<1)) }">
+
+          <option value="0" disabled>اختر الفيلم </option>
+          <option *ngFor="let mov of movies" [value]="mov.id" id="select">{{mov.movieName}}</option>
+        </select>
+        <div class="text-danger"
+          *ngIf="this.movieActor.get('movId').hasError('required')&& this.movieActor.get('movId').touched&&this.movieActor.get('movId').value<1">
+          اسم الفيلم مطلوب </div>
+
+      </div>
+
+        <div class="form-group col-md-8">
+          <label for="actorId">الممثلين </label>
+          <select id="actorId" class="custom-select" formControlName="actorId" name="actorId"
+            [ngClass]="{'is-invalid':((this.movieActor.get('actorId').invalid&& this.movieActor.get('actorId').touched&&this.movieActor.get('actorId').value<1)) }">
+
+            <option value="0" disabled>اختر الممثلين </option>
+            <option *ngFor="let actor of actors" [value]="actor.id" id="select">{{actor.actorName}}</option>
+          </select>
+          <div class="text-danger"
+            *ngIf="this.movieActor.get('actorId').hasError('required')&& this.movieActor.get('actorId').touched&&this.movieActor.get('actorId').value<1">
+            اسم الممثل مطلوب </div>
+        </div>
+      <button type="submit"  [disabled]="this.movieActor.invalid||this.movieActor.get('actorId').value<1||this.movieActor.get('movId').value<1"
+        class="btn btn-success btn-block col-md-8"> {{this.btn}}</button>
+    </form>
+
+  </div>

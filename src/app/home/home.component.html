@@ -1,0 +1,51 @@
+<div class="img-container">
+  <img src="assets/images-error/Cinama.jpg" alt="img-slide" class="img-logo">
+</div>
+
+<div class="search-area">
+  <div class="card card-search">
+    <div class="text-center">
+      <form [formGroup]="formSearch" (ngSubmit)="onSearch()">
+      <input class="form-control input-search" formControlName="search" type="text" name="" placeholder="بحث-----">
+      <button type="submit"[disabled]="this.formSearch.invalid" class="btn btn-dark"><i class="fa fa-search"></i></button>
+      <button class="btn btn-dark mr-4" (click)="getAllMovies()">تحديث القائمه</button>
+    </form>
+    </div>
+  </div>
+</div>
+<div class="page-content py-5 p-4">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="list-group" *ngFor="let subCategory of subCategory">
+        <button class="list-group-item list-group-item-action" (click)="getSubCategory(subCategory.subCategoryName)">{{subCategory.subCategoryName}}</button>
+       </div>
+    </div>
+
+    <div class="spinner" *ngIf="movie.length==0 && msg==''"></div>
+    <div class="m-auto" *ngIf="movie.length == 0 &&msg!=''" >
+      <div class="alert alert-primary" role="alert">
+        <strong>{{msg}}</strong>
+        <button type="button" class="btn btn-dark mr-4" (click)="getAllMovies()">تحديث القائمة</button>
+      </div>
+    </div>
+      <div class="col-md-9" *ngIf="movie.length>0">
+        <div class="row" >
+        <div class="col-md-3 mb-2"  *ngFor="let mov of movie">
+          <div class="card"  style="max-height: 453px;cursor:pointer"(click)="getMovie(mov.id)">
+            <img class="card-img-top" height="370px" src="assets/moviesPicture/{{mov.moviePost}}" alt="Card image cap">
+            <div class="card-body">
+              <h4 class="card-title">{{mov.movieName}}</h4>
+              <!-- <p class="card-text"></p> -->
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<app-footer></app-footer>

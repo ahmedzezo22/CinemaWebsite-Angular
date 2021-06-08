@@ -1,0 +1,12 @@
+ .row{
+  margin-right: 11px !important;
+} 
+
+@media only screen and (max-width: 768px) {
+ 
+    img#img{
+        display:block;
+        margin:auto;
+    }
+   
+}

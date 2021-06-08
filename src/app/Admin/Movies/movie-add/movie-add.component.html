@@ -1,0 +1,170 @@
+<div class="container register rtl">
+  <div class="col-md-9">
+    <h5 class="mt-4 mb-3"> {{this.title}} </h5>
+
+    <hr class="">
+    <button class="btn btn-primary mb-4" (click)="goList()">العوده لقائمة الافلام</button>
+
+    <div *ngIf="success!==''" class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong>{{success}}</strong>
+    </div>
+    <div *ngIf="error!==''" class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong>{{error}}</strong>
+    </div>
+  </div>
+
+  <form [formGroup]="movieForm" (ngSubmit)="Addmovie()" enctype="multipart/form-data">
+
+    <div class="form-group col-md-8">
+      <label for="movieName">اسم الفيلم</label>
+      <input type="text"
+        [ngClass]="{'is-invalid':((this.movieForm.get('movieName').invalid&& this.movieForm.get('movieName').touched)) }"
+        class="form-control" id="movieName" formControlName="movieName" placeholder="اسم الفيلم"
+        [ngClass]="{'is-valid': this.movieForm.get('movieName').valid}">
+      <div class="text-danger"
+        *ngIf="this.movieForm.get('movieName').hasError('required')&& this.movieForm.get('movieName').touched">
+        اسم الفيلم مطلوب</div>
+      <div class="text-danger"
+        *ngIf="this.movieForm.get('movieName').hasError('maxlength')&& this.movieForm.get('movieName').touched">
+        الحد الاقصى لعدد الحروف 200 حرف</div>
+      <div class="text-danger" *ngIf="isMovieExist()&&this.movieForm.get('movieName').touched">{{msg}}   </div>
+    </div>
+    <div class="form-group col-md-8">
+      <label for="movieStory"> قصة الفيلم</label>
+      <textarea name="" id="" cols="30" rows="10" style="resize:none"
+        [ngClass]="{'is-invalid':((this.movieForm.get('movieStory').invalid&& this.movieForm.get('movieStory').touched)) }"
+        class="form-control" id="movieStory" formControlName="movieStory" placeholder="قصة الفيلم"
+        [ngClass]="{'is-valid': this.movieForm.get('movieStory').valid}"></textarea>
+      <div class="text-danger"
+        *ngIf="this.movieForm.get('movieStory').hasError('required')&& this.movieForm.get('movieStory').touched">
+        قصة الفيلم مطلوبه </div>
+    </div>
+
+    <div class="form-group col-md-8">
+      <label for="movieTrailer"> اعلان الفيلم</label>
+      <input type="text" name="" id="" cols="30" rows="10" style="resize:none"
+        [ngClass]="{'is-invalid':((this.movieForm.get('movieTrailer').invalid&& this.movieForm.get('movieTrailer').touched)) }"
+        class="form-control" id="movieTrailer" formControlName="movieTrailer" placeholder="رابط اعلان الفيلم "
+        [ngClass]="{'is-valid': this.movieForm.get('movieTrailer').valid}">
+      <div class="text-danger"
+        *ngIf="this.movieForm.get('movieTrailer').hasError('required')&& this.movieForm.get('movieTrailer').touched">
+        اعلان الفيلم مطلوب </div>
+    </div>
+
+    <div class="form-group col-md-8">
+      <label for="catId">التصنيف </label>
+      <select id="catId" class="custom-select" formControlName="catId" name="catId"
+        [ngClass]="{'is-invalid':((this.movieForm.get('catId').invalid&& this.movieForm.get('catId').touched&&this.movieForm.get('catId').value<1)) }">
+
+        <option value="0" disabled>اختر التصنيف </option>
+        <option *ngFor="let cat of subCategory" [value]="cat.id" id="select">{{cat.subCategoryName}}</option>
+      </select>
+      <div class="text-danger"
+        *ngIf="this.movieForm.get('catId').hasError('required')&& this.movieForm.get('catId').touched&&this.movieForm.get('catId').value<1">
+        اسم التصنيف مطلوب </div>
+
+    </div>
+
+      <div class="form-group col-md-8">
+        <label for="actorId">الممثلين </label>
+        <select id="actorId" class="custom-select" formControlName="actorId" name="actorId" (change)="onActorChange()"
+          [ngClass]="{'is-invalid':((this.movieForm.get('actorId').invalid&& this.movieForm.get('actorId').touched&&this.movieForm.get('actorId').value<1)) }">
+
+          <option value="0" disabled>اختر الممثلين </option>
+          <option *ngFor="let actor of actors" [value]="actor.id" id="select">{{actor.actorName}}</option>
+        </select>
+        <div class="text-danger"
+          *ngIf="this.movieForm.get('actorId').hasError('required')&& this.movieForm.get('actorId').touched&&this.movieForm.get('actorId').value<1">
+          اسم الممثل مطلوب </div>
+        <div class="text-danger" *ngIf="exist!=''">{{exist}}</div>
+        <div formArrayName="actorControl" class="d-inline-block m-2"
+          *ngFor="let act of actorControl.controls;let i=index">
+          <div [formGroupName]="i">
+            <div class="alert alert-secondary alert-dismissible fade show d-inline-block" role="alert"
+              *ngIf="act.value.actId>0">
+              <label for="actName">{{act.value.actName}}</label>
+              <input type="hidden" id="actName" formControlName="actName" [value]="act.value.actName"
+                class="d-inline-block mytext">
+              <input type="hidden" formControlName="actId" [value]="act.value.actId">
+              <button type="button" class="close" (click)="onMyClick(i)" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    <div class="row">
+      <div class="custom-file mb-3 col-md-5" style="margin-right: 17px;">
+        <input type="file" class="custom-file-input" formControlName="moviePic" accept="image/*"
+          [ngClass]="{'is-invalid': this.movieForm.get('moviePic').invalid&&this.img==null&&this.movieForm.get('moviePic').touched}"
+          (change)="handlPic($event)" />
+        <!-- onchange="document.getElementById('img').src = window.URL.createObjectURL(this.files[0])" -->
+
+        <label class="custom-file-label">
+          <span *ngIf="img!==null">{{img.name}}</span>
+          <span *ngIf="img==null">اختر ملصق فيلم او مسلسل</span>
+        </label>
+        <div class="text-danger"
+          *ngIf="this.movieForm.get('moviePic').hasError('required')&&this.img==null&&this.movieForm.get('moviePic').touched">
+          صورة الفيلم مطلوبه </div>
+      </div>
+      <div class="col-md-3">
+        <img [src]="urlImg" id="img" class=" border rounded" height="255px" width="233px">
+      </div>
+    </div>
+
+    <div class="card col-md-8 mb-3 mt-3">
+      <div class="card-body ">
+        <h5 class="card-title">اختيار روابط الفيلم</h5>
+        <div class="row">
+          <div class="custom-file mb-3 col-md-6" style="margin-right: 17px;">
+            <input type="file" class="custom-file-input" formControlName="filmVid" accept="video/*"
+              [ngClass]="{'is-invalid': this.movieForm.get('filmVid').invalid&&this.film==null&&this.movieForm.get('filmVid').touched}"
+              (change)="handlfilms($event)" />
+            <!-- onchange="document.getElementById('img').src = window.URL.createObjectURL(this.files[0])" -->
+
+            <label class="custom-file-label">
+              <span *ngIf="film!==null">{{film.name}}</span>
+              <span *ngIf="film==null">اختر رابط فيلم او مسلسل</span>
+            </label>
+            <div class="text-danger"
+              *ngIf="this.movieForm.get('filmVid').hasError('required')&&this.film==null&&this.movieForm.get('filmVid').touched">
+              رابط الفيلم مطلوبه </div>
+          </div>
+          <div class="col-md-2">
+           <video controls width="321px" height="200px" >
+             <source id="mov" src="" type="">
+           </video>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary mb-3" (click)="AddLink()">اضافة رابط تحميل جديد</button>
+        <div>
+            <div formArrayName="links" class="form-group" *ngFor="let link of links.controls; let i = index">
+                <div [formGroupName]="i" *ngIf="i > 0">
+                    <div class="alert alert-light alert-dismissible fade show mb-0 pb-0" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <input type="text" class="form-control" [pattern]="linkVal" formControlName="link" id=""
+                            placeholder="رابط التحميل">
+                        <div class="text-danger"
+                            *ngIf="this.movieForm.get(['links', i]).touched && isLinkValid(link.value.link)">
+                            رابط تحميل غير صالح
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit"  [disabled]="this.movieForm.invalid||isMovieExist()||img==null||this.movieForm.get('catId').value<0||film==null"
+      class="btn btn-success btn-block col-md-8"> {{this.btn}}</button>
+  </form>
+
+</div>

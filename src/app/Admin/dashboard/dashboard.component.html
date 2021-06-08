@@ -1,0 +1,233 @@
+<div class="wrapper">
+  <!-- Sidebar  -->
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <h3>لوحة التحكم </h3>
+    </div>
+
+    <ul class="list-unstyled components">
+      <div>
+        <p style="display: inline-block;">Hello {{name}}</p> <i class="fa fa-user text-lighte"
+          style="font-size: 30px;"></i>
+      </div>
+
+      <li class="active">
+        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">المستخدمين</a>
+        <ul class="collapse list-unstyled" id="homeSubmenu">
+          <li>
+            <a (click)="checkUser()"> قائمة المستخدمين</a>
+          </li>
+          <li>
+
+          </li>
+          <li>
+            <a (click)="checkUserRole()"> أدوار المستخدمين</a>
+          </li>
+        </ul>
+      </li>
+      <!-- <li>
+                <a href="#">About</a>
+            </li> -->
+      <li>
+        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">قائمة
+          التصنيفات</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu">
+          <li>
+            <a (click)="checkCategory()"> التصنيفات الاساسيه</a>
+          </li>
+          <li>
+            <a (click)="checkSubCategory()">التصنيفات الفرعيه</a>
+          </li>
+        </ul>
+      </li>
+
+
+      <li>
+        <a href="#ActorSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">قائمة
+          الافلام والمسلسلات</a>
+        <ul class="collapse list-unstyled" id="ActorSubmenu">
+          <li>
+            <a (click)="checkActor()"> قائمة الممثلين</a>
+          </li>
+
+          <li>
+            <a (click)="checkMovie()">فائمة الافلام </a>
+          </li>
+          <li>
+            <a (click)="checkLinks()">فائمة الروابط </a>
+          </li>
+          <li>
+            <a (click)="checkMovieActors()">فائمة ممثلين الافلام </a>
+          </li>
+        </ul>
+      </li>
+
+
+      <li>
+        <a (click)="mainControlPanel()">الاحصائيات</a>
+      </li>
+      <li>
+        <a href="#">Contact</a>
+      </li>
+    </ul>
+
+    <ul class="list-unstyled CTAs">
+      <li>
+        <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+      </li>
+      <li>
+        <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Page Content  -->
+  <div id="content">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+
+        <button type="button" id="sidebarCollapse" class="btn btn-dark">
+          <i class="fa fa-align-left"></i>
+
+        </button>
+        <h4 class="mr-auto">لوحة التحكم</h4>
+      </div>
+    </nav>
+    <hr />
+    <div class="container main-panel">
+      <div *ngIf="isUserList">
+        <div class="alert alert-primary" role="alert">
+          <strong>قائمة المستخدمين</strong>
+        </div>
+        <button class="btn btn-success mb-3" (click)="AddUser()">اضافة مستخدم جديد</button>
+        <app-users></app-users>
+      </div>
+      <div class="" *ngIf="isAddUser">
+        <app-add-user></app-add-user>
+      </div>
+      <div class="" *ngIf="isUserRole">
+        <div class="alert alert-primary" role="alert">
+          <strong>قائمة صلاحيات المستخدمين</strong>
+        </div>
+        <div>
+          <app-user-roles></app-user-roles>
+        </div>
+
+      </div>
+      <div *ngIf="isCategoryList">
+        <div class="alert alert-primary" role="alert">
+          <strong>قائمة التصنيفات</strong>
+        </div>
+        <button class="btn btn-outline-success mb-3" (click)="AddCategory()">اضافة تصنيف جديد</button>
+        <app-category-list></app-category-list>
+      </div>
+      <div *ngIf="isSubCategoryList">
+        <div class="alert alert-primary" role="alert">
+          <strong> فائمة التصنيفات الفرعيه</strong>
+        </div>
+        <button class="btn btn-outline-success mb-3" (click)="AddSubCategory()">اضافة تصنيف فرعى جديد</button>
+        <app-sub-category></app-sub-category>
+      </div>
+
+      <div *ngIf="isActorList">
+        <div class="alert alert-primary" role="alert">
+          <strong> فائمة الممثلين </strong>
+        </div>
+        <button class="btn btn-outline-success mb-3" (click)="AddActor()">اضافة ممثل جديد</button>
+        <app-actor-list></app-actor-list>
+      </div>
+
+      <div *ngIf="isMovieList">
+        <div class="alert alert-primary" role="alert">
+          <strong> الافلام والمسلسلات </strong>
+        </div>
+        <button class="btn btn-outline-success mb-3" (click)="addMovie()">اضافة فيلم جديد</button>
+        <app-movie-list></app-movie-list>
+      </div>
+
+      <div *ngIf="isLinksList">
+        <div class="alert alert-primary" role="alert">
+          <strong> روابط الافلام والمسلسلات </strong>
+        </div>
+        <button class="btn btn-outline-success mb-3" (click)="addNewLink()">اضافة رابط جديد</button>
+        <app-movie-link-list></app-movie-link-list>
+      </div>
+      <div *ngIf="isMoviesActorList">
+        <div class="alert alert-primary" role="alert">
+          <strong> ممثلين الافلام والمسلسلات </strong>
+        </div>
+        <button class="btn btn-outline-success mb-3" (click)="addNewMovieActors()">اضافة ممثلين </button>
+        <app-movie-actor-list></app-movie-actor-list>
+      </div>
+      <div *ngIf="mainPanel">
+        <div class="spinner" *ngIf="categoryCount==-1&& subCategoryCount==-1&&usersCount==-1
+        &&actorCount==-1&&movieCount==-1&&linksCount==-1">
+        </div>
+        <div class="" *ngIf="categoryCount>=0&& subCategoryCount>=0&&usersCount>=0
+          &&actorCount>=0&&movieCount>=0&&linksCount>=0" >
+          <h1>الاحصائيات</h1>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="assets/images-error/cat.png" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text text-center ">التصنيفات الاساسيه</p>
+                  <h3 class="text-center count">{{categoryCount}}</h3>
+                </div>
+              </div>
+           
+              
+            </div>
+            <div class="col-md-4">
+              <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="assets/images-error/sub.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text text-center ">التصنيفات الفرعيه</p>
+                  <h3 class="text-center count">{{subCategoryCount}}</h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="assets/images-error/user.png" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text text-center">  المستخدمين </p>
+                  <h3 class="text-center count">{{usersCount}}</h3>
+                </div>
+              </div>
+            </div>
+  
+            <div class="col-md-4" style="margin-top:18px">
+              <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="assets/images-error/Actor.png" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text text-center">  الممثلين</p>
+                  <h3 class="text-center count">{{actorCount}}</h3>
+                </div>
+              </div>
+            </div>
+  
+            <div class="col-md-4 "style="margin-top:18px">
+              <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="assets/images-error/movie.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text text-center">  الافلام والمسلسلات</p>
+                  <h3 class="text-center count">{{movieCount}}</h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 "style="margin-top:18px">
+              <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="assets/images-error/link.jpg" alt="Card image cap">
+                <div class="card-body">
+                  <p class="card-text text-center"> روابط الافلام والمسلسلات </p>
+                  <h3 class="text-center count">{{linksCount}}</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+       
+      </div>

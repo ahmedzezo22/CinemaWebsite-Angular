@@ -1,0 +1,69 @@
+<div class="container register rtl">
+  <div class="col-md-9">
+    <h5 class="mt-4 mb-3"> {{this.title}} </h5>
+
+    <hr class="">
+    <button class="btn btn-primary mb-4" (click)="goList()">العوده لقائمة الروابط</button>
+
+    <div *ngIf="success!==''" class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong>{{success}}</strong>
+    </div>
+    <div *ngIf="error!==''" class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong>{{error}}</strong>
+    </div>
+  </div>
+
+  <form [formGroup]="linkForm" (ngSubmit)="Addmovie()" enctype="multipart/form-data">
+
+    <div class="form-group col-md-8">
+      <label for="movieId">اسم الفيلم </label>
+      <select id="movieId" class="custom-select" formControlName="movieId" name="movieId"
+        [ngClass]="{'is-invalid':((this.linkForm.get('movieId').invalid&& this.linkForm.get('movieId').touched&&this.linkForm.get('movieId').value<1)) }">
+
+        <option value="0" disabled>اختر الفيلم </option>
+        <option *ngFor="let mov of movies" [value]="mov.id" id="select">{{mov.movieName}}</option>
+      </select>
+      <div class="text-danger"
+        *ngIf="this.linkForm.get('movieId').hasError('required')&& this.linkForm.get('movieId').touched&&this.linkForm.get('movieId').value<1">
+        اسم الممثل مطلوب </div>
+
+    </div>
+    <div class="form-group col-md-8">
+      <label for="movLink"> رابط الفيلم</label>
+      <input type="text" name="" id="movLink"
+        [ngClass]="{'is-invalid':((this.linkForm.get('movLink').invalid&& this.linkForm.get('movLink').touched)) }"
+        class="form-control" id="movLink" formControlName="movLink" placeholder="رابط  الفيلم "
+        [ngClass]="{'is-valid': this.linkForm.get('movLink').valid}">
+      <div class="text-danger"
+        *ngIf="this.linkForm.get('movLink').hasError('required')&& this.linkForm.get('movLink').touched">
+        رابط الفيلم مطلوب </div>
+    </div>
+
+
+    <div class="form-group col-md-8">
+      <label for="quality"> جودة الفيلم</label>
+      <input type="text" name="" id="quality"
+        [ngClass]="{'is-invalid':((this.linkForm.get('quality').invalid&& this.linkForm.get('quality').touched)) }"
+        class="form-control" id="movLink" formControlName="quality" placeholder="جودة  الفيلم "
+        [ngClass]="{'is-valid': this.linkForm.get('quality').valid}">
+      <div class="text-danger"
+        *ngIf="this.linkForm.get('quality').hasError('required')&& this.linkForm.get('quality').touched">
+        جودة الفيلم مطلوب </div>
+    </div>
+    <div class="form-group col-md-8">
+      <label for="resolution"> دقة الفيلم</label>
+      <input type="text" name="" id="resolution"
+        [ngClass]="{'is-invalid':((this.linkForm.get('resolution').invalid&& this.linkForm.get('resolution').touched)) }"
+        class="form-control" id="movLink" formControlName="resolution" placeholder="دقة  الفيلم "
+        [ngClass]="{'is-valid': this.linkForm.get('resolution').valid}">
+      <div class="text-danger"
+        *ngIf="this.linkForm.get('resolution').hasError('required')&& this.linkForm.get('resolution').touched">
+        دقة الفيلم مطلوب </div>
+    </div>
+    <button type="submit"  [disabled]="this.linkForm.invalid||this.linkForm.get('movieId').value<0"
+      class="btn btn-success "> {{btn}}</button>
+  </form>
+
+</div>

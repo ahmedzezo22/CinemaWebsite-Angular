@@ -1,0 +1,86 @@
+<!-- <div *ngIf="movie.length===0">
+  <div class="alert alert-secondary">
+    لايوجد افلام او مسلسلات حتى الان
+  </div>
+</div> -->
+
+<div class="" *ngIf="movieActors.length>0">
+  <form [formGroup]="formSearch" (ngSubmit)="onSearch()">
+    <div class="row mb-3 mr-0 ml-0">
+      <input type="text" class="form-control col-md-5" formControlName="search" placeholder="البحث ....">
+      <button type="submit" class="btn btn-dark col-md-1" [disabled]="formSearch.invalid">
+        <i class="fa fa-search"></i>
+      </button>
+      <button type="button" class="btn btn-dark mr-4" (click)="getAllMovieActors()">تحديث القائمة</button>
+
+    </div>
+  </form>
+  <div *ngIf="msg!==''" class="alert alert-success">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <strong>{{msg}}</strong>
+  </div>
+
+  <table id="tbl" class="table table-response bg-light border">
+    <thead>
+      <tr class="bg-dark text-light">
+        <th>اسم الفيلم</th>
+        <th> اسم التصنيف</th>
+        <th>اسم الممثل</th>
+       <th></th>
+        <th>
+          <input type="checkbox" class="ckheader" style="cursor: pointer;" (change)="selectAll()"
+            [checked]="selectAll()">
+        </th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let movActor of movieActors">
+        <td scope="row">{{movActor.movie.movieName}}</td>
+        <td>{{movActor.movie.subCategory.subCategoryName}}</td>
+        <td>{{movActor.movieActors.actorName}}</td>
+        <td>
+          <div>
+            <button type="button" class="btn btn-primary btn-sm" (click)="editMovieActor(movActor.id)">تعديل</button>
+
+          </div>
+        </td>
+        <td>
+          <input type="checkbox" style="cursor: pointer;" class="ckitem" value="{{movActor.id}}">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#modelId"
+      (click)="DeleteCount()" [disabled]="!isDelete()">Delete
+    </button>
+  </div>
+
+<!-- Modal -->
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">تنبيه حذف</h5>
+      </div>
+      <div class="modal-body">
+        لقد قمت باختيار عدد {{item}} عنصر للحذف. هل تريد الحذف ؟؟
+      </div>
+      <div class="modal-footer">
+        <button id="btnClose" type="button" class="btn btn-secondary" data-dismiss="modal" id="btnclose">تراجع</button>
+        <button type="button" class="btn btn-danger" (click)="deleteConfirm()">تأكيد الحذف</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="" *ngIf="movieActors.length < 1">
+  <div class="alert alert-primary" role="alert">
+    <strong>لا يوجد بيانات بالوقت الحالي</strong>
+    <button type="button" class="btn btn-dark mr-4" (click)="getAllMovieActors()">تحديث القائمة</button>
+  </div>
+</div>
+
+

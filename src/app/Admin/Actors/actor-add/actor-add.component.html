@@ -1,0 +1,51 @@
+<div class="container register rtl">
+    <div class="col-md-9">
+    <h5 class="mt-4 mb-3"> {{this.title}} </h5>
+
+    <hr class="">
+    <button class="btn btn-primary mb-4" (click)="goList()">العوده لقائمة الممثلين</button>
+
+    <div *ngIf="success!==''" class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong>{{success}}</strong>
+    </div>
+      <div *ngIf="error!==''" class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong>{{error}}</strong>
+    </div>
+    </div>
+    
+        <form [formGroup]="ActorForm" (ngSubmit)="AddActor()" enctype="multipart/form-data">
+
+            <div class="form-group col-md-8">
+                <label for="actorName">اسم الممثل</label>
+                <input type="text"
+                [ngClass]="{'is-invalid':((this.ActorForm.get('actorName').invalid&& this.ActorForm.get('actorName').touched)||isactorNameExist()) }"
+                class="form-control" id="actorName" formControlName="actorName" placeholder="اسم الممثل"
+                [ngClass]="{'is-valid': this.ActorForm.get('actorName').valid&&!isactorNameExist()}"
+                >
+                <div class="text-danger" *ngIf="this.ActorForm.get('actorName').hasError('required')&& this.ActorForm.get('actorName').touched">اسم الممثل مطلوب</div>
+                <div class="text-danger" *ngIf="this.ActorForm.get('actorName').hasError('maxlength')&& this.ActorForm.get('actorName').touched">  الحد الاقصى لعدد الحروف 200 حرف</div>
+                <div class="text-danger" *ngIf="isactorNameExist()">{{msg}}</div>
+            </div>
+          <div class="row">
+            <div class="custom-file mb-3 col-md-5" > 
+                <input type="file" class="custom-file-input" formControlName="actorPicture" accept="image/*"
+                [ngClass]="{'is-invalid': this.ActorForm.get('actorPicture').invalid&&this.img==null&&this.ActorForm.get('actorPicture').touched}"
+                (change)="handlPic($event)" />
+                <!-- onchange="document.getElementById('img').src = window.URL.createObjectURL(this.files[0])" -->
+
+                <label class="custom-file-label" > 
+                    <span *ngIf="img!==null">{{img.name}}</span>
+                    <span *ngIf="img==null">اختر صوره</span>
+                </label>
+                <div class="text-danger" *ngIf="this.ActorForm.get('actorPicture').hasError('required')&&this.img==null&&this.ActorForm.get('actorPicture').touched">  صورة الممثل مطلوبه     </div>
+            </div>
+            <div class="col-md-3">
+                <img [src]="urlImg" id="img"  class=" border rounded" height="255px" width="233px">
+            </div>
+        </div>
+        <button type="submit"[disabled]="this.ActorForm.get('actorName').hasError('required')||img==null" class="btn btn-primary"> {{this.btn}}</button>
+        </form>
+   
+</div>  

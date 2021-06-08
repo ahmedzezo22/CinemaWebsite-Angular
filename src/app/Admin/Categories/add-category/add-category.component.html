@@ -1,0 +1,32 @@
+<div class="container register rtl">
+    <div class="col-md-9">
+    <h5 class="mt-4 mb-3"> {{this.title}} </h5>
+
+    <hr class="">
+    <button class="btn btn-primary mb-4" (click)="goList()">العوده لقائمة التصنيفات</button>
+
+    <div *ngIf="success!==''" class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong>{{success}}</strong>
+    </div>
+      <div *ngIf="error!==''" class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong>{{error}}</strong>
+    </div>
+    </div>
+    <div class="col-md-5">
+        <form [formGroup]="categoryForm" (ngSubmit)="AddCategory()">
+            <div class="form-group">
+                <label for="categoryName">اسم التصنيف</label>
+                <input type="text"
+                [ngClass]="{'is-invalid':((this.categoryForm.get('categoryName').invalid&& this.categoryForm.get('categoryName').touched)||iscategoryNameExist()) }"
+                class="form-control" id="categoryName" formControlName="categoryName" placeholder="اسم التصنيف"
+                [ngClass]="{'is-valid': this.categoryForm.get('categoryName').valid&&!iscategoryNameExist()}"
+                >
+                <div class="text-danger" *ngIf="this.categoryForm.get('categoryName').hasError('required')&& this.categoryForm.get('categoryName').touched">اسم التصنيف مطلوب</div>
+                <div class="text-danger" *ngIf="this.categoryForm.get('categoryName').hasError('maxlength')&& this.categoryForm.get('categoryName').touched">  الحد الاقصى لعدد الحروف 250 حرف</div>
+                <div class="text-danger" *ngIf="iscategoryNameExist()">{{msg}}</div>
+            </div>
+            <button type="submit"[disabled]="categoryForm.invalid||iscategoryNameExist()" class="btn btn-primary"> {{this.btn}}</button>
+        </form>
+        </div>

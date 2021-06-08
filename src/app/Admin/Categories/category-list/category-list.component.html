@@ -1,0 +1,46 @@
+<div class="category">
+    <table id="tbl" class="table table-response bg-light border">
+        <thead>
+            <tr class="bg-dark text-light">
+                <th>اسم الصنف</th>
+                <th></th>
+                <th>
+                    <input type="checkbox" class="ckheader"style="cursor: pointer;" (change)="selectAll()"[checked]="selectAll()">
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let category of category">
+                <td scope="row">{{category.categoryName}}</td>
+                <td><div>
+                    <button type="button" class="btn btn-primary btn-sm"(click)="editCategory(category.id,category.categoryName)"> تعديل التصنيف</button>
+                </div></td>
+                <td> 
+                    <input type="checkbox" style="cursor: pointer;"class="ckitem" value="{{category.id}}">
+                </td>
+    
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#modelId"
+            (click)="DeleteCount()" [disabled]="!isDelete()">Delete
+        </button>
+    </div>
+</div>
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">تنبيه حذف</h5>
+            </div>
+            <div class="modal-body">
+                لقد قمت باختيار عدد {{item}} عنصر للحذف. هل تريد الحذف ؟؟
+            </div>
+            <div class="modal-footer">
+                <button id="btnClose" type="button" class="btn btn-secondary" data-dismiss="modal" id="btnclose">تراجع</button>
+                <button type="button" class="btn btn-danger" (click)="deleteConfirm()">تأكيد الحذف</button>
+            </div>
+        </div>
+    </div>
+</div>

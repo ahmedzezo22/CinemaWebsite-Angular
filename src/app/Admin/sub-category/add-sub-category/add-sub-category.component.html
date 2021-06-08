@@ -1,0 +1,50 @@
+<div class="container register rtl">
+    <div class="col-md-9">
+    <h5 class="mt-4 mb-3"> {{this.title}} </h5>
+
+    <hr class="">
+    <button class="btn btn-primary mb-4" (click)="goList()">  العوده لقائمة التصنيفات الفرعيه </button>
+
+    <div *ngIf="success!==''" class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong>{{success}}</strong>
+    </div>
+      <div *ngIf="error!==''" class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong>{{error}}</strong>
+    </div>
+    </div>
+    <div class="col-md-5">
+        <form [formGroup]="subcategoryForm" (ngSubmit)="AddSubCategory()">
+            <div class="form-group">
+                <label for="Category">التصنيف الاساسى</label>
+                <select id="category" class="custom-select" formControlName="catId" name="category"
+                [ngClass]="{'is-invalid':((this.subcategoryForm.get('catId').invalid&& this.subcategoryForm.get('catId').touched&&this.subcategoryForm.get('catId').value<1)) }"
+                >
+
+                    <option value="0" disabled>اختر التصنيف الاساسى</option>
+                    <option *ngFor="let cat of category" [value]="cat.id" id="select">{{cat.categoryName}}</option>
+                </select>
+                <div class="text-danger" *ngIf="this.subcategoryForm.get('catId').hasError('required')&& this.subcategoryForm.get('catId').touched&&this.subcategoryForm.get('catId').value<1">اسم التصنيف الاساسى مطلوب  </div>
+
+            </div>
+            <div class="form-group">
+                <label for="categoryName">  اسم التصنيف الفرعى</label>
+                <input type="text"
+                [ngClass]="{'is-invalid':((this.subcategoryForm.get('categoryName').invalid&& this.subcategoryForm.get('categoryName').touched)||isSubcategoryNameExist()) }"
+                class="form-control" id="categoryName" formControlName="categoryName" placeholder=" اسم التصنيف الفرعى"
+                [ngClass]="{'is-valid': this.subcategoryForm.get('categoryName').valid}"
+                >
+                <div class="text-danger" *ngIf="this.subcategoryForm.get('categoryName').hasError('required')&& this.subcategoryForm.get('categoryName').touched">اسم التصنيف مطلوب</div>
+                <div class="text-danger" *ngIf="this.subcategoryForm.get('categoryName').hasError('maxlength')&& this.subcategoryForm.get('categoryName').touched">  الحد الاقصى لعدد الحروف 250 حرف</div>
+                <div class="text-danger" *ngIf="isSubcategoryNameExist()">{{msg}}</div>
+            </div>
+            <button type="submit"[disabled]="this.subcategoryForm.invalid &&this.subcategoryForm.get('categoryName').hasError('required') &&this.subcategoryForm.get('catId').value<1" class="btn btn-primary"> {{this.btn}}</button>
+        </form>
+        </div>
+        <!-- <div>
+            <h3>
+                {{subcategoryForm.get('catId').value}}
+                {{subcategoryForm.get('categoryName').value}}
+            </h3>
+        </div> -->

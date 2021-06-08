@@ -1,0 +1,47 @@
+<div class="container register rtl">
+    <div class="col-md-9">
+    <h5 class="mt-4">  تسجيل الدخول</h5>
+    <hr class="mb-4">
+    
+    <div *ngIf="success!==''" class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong>{{success}}</strong>
+    </div>
+    </div>
+    <div class="col-md-5">
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+           
+            <div class="form-group">
+              <label for="email">البريد الالكترونى</label>
+              <input type="email" class="form-control" [ngClass]="{'is-invalid':this.loginForm.get('email').invalid&& this.loginForm.get('email').touched }" formControlName="email" id="email" 
+              aria-describedby="emailHelp" placeholder="البريد الالكترونى" [ngClass]="{'is-valid': this.loginForm.get('email').valid}">
+              <div class="text-danger" *ngIf="this.loginForm.get('email').hasError('required')&& this.loginForm.get('email').touched">البريد الالكترونى مطلوب</div>
+            </div>
+            <div class="form-group">
+              <label for="password">كلمة السر</label>
+              <input type="password"
+             
+              formControlName="password" class="form-control" id="password" placeholder="كلمة السر"[ngClass]="{'is-invalid':this.loginForm.get('password').invalid&& this.loginForm.get('password').touched }"
+              [ngClass]="{'is-valid': this.loginForm.get('password').valid}"
+              >
+              <div class="text-danger" *ngIf="this.loginForm.get('password').hasError('required')&& this.loginForm.get('password').touched">كلمة المرور مطلوبه</div>
+
+              
+            </div>
+        <div class="form-group">
+            <input type="checkbox"formControlName="rememberMe"  id="checkbox">
+            <label for="checkbox" class="pr-2"> تذكرنى</label>
+
+        </div>
+
+            <button type="submit"[disabled]="loginForm.invalid " class="btn btn-primary">تسجيل</button>
+          </form>
+    </div>
+
+  <div class="btn-login mt-3">
+  ليس لدى حساب  <a [routerLink]="['/register']" routerLinkActive="router-link-active" >تسجيل </a>
+  <div>
+    <a [routerLink]="['/forgetpassword']" routerLinkActive="router-link-active" >نسيت كلمة المرور</a>
+  </div>
+</div>
+</div>

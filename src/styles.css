@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+/* fonts */
+@font-face {
+    font-family:'DroidKufi-Regular' ;
+    src: url('./assets/font/DroidKufi-Regular.ttf');
+}
+@font-face {
+    font-family: 'DroidKufi-Bold';
+    src: url("./assets/font/DroidKufi-Bold.ttf");
+}
+body{
+    font-family:'DroidKufi-Regular';
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+
+}
+.ar{
+    direction:rtl;
+    text-align: right;
+}
+.NewRowColor{
+    background-color: beige;
+}
+.custom-file-label {
+
+    padding-right: 80px;
+ }
+ .spinner{
+  border:16px solid silver;
+  border-top:16px solid #337AB7;
+  border-radius:50%;
+  width:80px;
+  height:80px;
+  animation:spin 700ms linear infinite;
+  top:50%;
+  left:43%;
+  position:absolute;
+}
+@keyframes spin{
+  0%{
+      transform:rotate(0deg)
+  }
+  100%{
+      transform:rotate(360deg)
+  }
+}
